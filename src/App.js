@@ -1,23 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
 
 function App() {
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
+  const onInputChange = (e) => {
+    const value = e.target.value;
+    setEmail(value);
+    if (
+      !/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/i.test(
+        value
+      )
+    ) {
+      setError("Invalid Email");
+    } else {
+      setError("");
+    }
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <label htmlFor="email">Email:</label>
+      <input
+        type="text"
+        id="email"
+        name="email"
+        value={email}
+        onChange={onInputChange}
+      />
+      <p className="error">{error && error}</p>
     </div>
   );
 }
